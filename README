@@ -1,0 +1,25 @@
+Run python db_create.py first to create DB table
+
+GIT
+Create a project on github
+Open GIT bash
+CD into project directory
+$ git init //create a new git repository
+$ touch README:md
+$ git add . //add all changes(files) in the Index (locally)
+$ git commit -am "my changes" //commit the changes and add to HEAD (locally)
+$ git remote add origin https://github.com/k-q-11/<this project name>.git //connect to a remote repository
+$ git push origin <name of my branch> //send the local changes in head to remote repository/push to remote server
+
+
+create a new repository on the command line:
+echo # StudentCaseTrack >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/k-q-11/StudentCaseTrack.git
+git push -u origin master
+
+push an existing repository from the command line:
+git remote add origin https://github.com/k-q-11/StudentCaseTrack.git
+git push -u origin master
