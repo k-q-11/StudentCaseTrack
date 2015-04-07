@@ -2,7 +2,7 @@
 {% block content%}
 <p>Signup here:</p>
 <form method='POST' action='{{url_for('signup')}}'>
-	{{ form.hidden_tag() }}
+	{{form.csrf_token}}
 	{{ form.username.label }}: {{ form.username}}<br><br>
 	{{ form.email.label }}: {{ form.email}}<br><br>
 	{{ form.password.label }}: {{ form.password}}<br><br>

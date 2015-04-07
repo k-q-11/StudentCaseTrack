@@ -18,7 +18,7 @@ CASE_STATUS = {
 class User(mydb.Model):
 	#__table__name = 'users'
 	# risk overflow
-	uid = mydb.Column(mydb.Integer, primary_key=True, autoincrement=True) 
+	uid = mydb.Column(mydb.Integer, primary_key=True) 
 	username = mydb.Column(mydb.String, unique=True, nullable = False)
 	email = mydb.Column(mydb.String, unique=True, nullable = False)
 	#pwdhash = db.Column(db.String, nullable = False)
@@ -42,7 +42,7 @@ class User(mydb.Model):
 
 class Case(mydb.Model):
 	#__table__name = 'cases'
-	cid = mydb.Column(mydb.Integer, primary_key=True, autoincrement=True)
+	cid = mydb.Column(mydb.Integer, primary_key=True)
 	category = mydb.Column(mydb.SmallInteger, nullable=False)
 	resp_person = mydb.Column(mydb.String(40), nullable=False)
 	status = mydb.Column(mydb.SmallInteger, nullable=False)

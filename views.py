@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
-
+from functools import wraps
+from sqlalchemy.exc import IntegrityError
 
 myapp = Flask(__name__)
 myapp.config.from_object('config')
@@ -9,25 +10,43 @@ mydb = SQLAlchemy(myapp)
 from forms import ProfileForm, SignupForm, AddCaseForm, EditCaseForm
 from models import User, Case
 
+##########################
+#### helper functions ####
+##########################
+def login_required(test):
+    @wraps(test)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return test(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
+    return wrap
+
+#not used
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text, error), 'error')
+
+################
+#### routes ####
+################
 @myapp.route('/')
 @myapp.route('/index', methods = ['GET', 'POST'])
+@login_required
 def index():
-	if 'logged_in' in session:
-		flash('Welcome %s!' %(session['username']))
-		return redirect(url_for('overview'))
-	else:
-		flash('You are not logged in')
-		return redirect(url_for('login'))
+	flash('Welcome %s!' %(session['username']))
+	return redirect(url_for('overview'))
 
 @myapp.route('/logout', methods = ['GET', 'POST'])
+@login_required
 def logout():
-	if not session['logged_in']:
-		return redirect(url_for('login'))
-	else:
-		session.pop('logged_in', None)
-		session.pop('username', None)
-		flash('You\'re logged out')
-		return redirect(url_for('index'))
+	session.pop('logged_in', None)
+	session.pop('username', None)
+	flash('You\'re logged out')
+	return redirect(url_for('index'))
 
 @myapp.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -61,23 +80,30 @@ def signup():
 			myuser = User(signupForm.username.data, 
 						  signupForm.email.data, 
 						  signupForm.password.data)
-			mydb.session.add(myuser)
-			mydb.session.commit()
-			flash('You\'re signed up. Please login!')
-			return redirect(url_for('login'))
+			try:
+				mydb.session.add(myuser)
+				mydb.session.commit()
+				flash('You\'re signed up. Please login!')
+				return redirect(url_for('login'))
+			except IntegrityError:
+				error = "The username and/or password already exists. Please try again."
+				return render_template('signup.html', form=signupForm, error=error)
 		else:
 			flash('All fields required')
 			return render_template('signup.html', form = signupForm)
 
 @myapp.route('/overview', methods=['GET', 'POST'])
+@login_required
 def overview():
 	myopen_cases = mydb.session.query(Case).filter_by().order_by(Case.last_modified.asc())
-	if myopen_cases is not None:
-		return render_template('overview.html', open_cases = myopen_cases)
-	else:
-		return render_template('overview.html')
+	return render_template('overview.html', open_cases = myopen_cases)
+	#if myopen_cases is not None:
+	#	return render_template('overview.html', open_cases = myopen_cases)
+	#else:
+	#	return render_template('overview.html')
 
 @myapp.route('/newcase', methods=['GET', 'POST'])
+@login_required
 def new_case():
 	addCaseForm = AddCaseForm(request.form)
 	if request.method == 'GET':
@@ -98,6 +124,7 @@ def new_case():
 	
 @myapp.route('/edit', methods=['GET', 'POST'])
 @myapp.route('/edit/<int:mycase_id>', methods=['GET', 'POST'])
+@login_required
 def edit_case(mycase_id):
 	editCaseForm = EditCaseForm(request.form)	
 	myedit_case = mydb.session.query(Case).filter_by(cid = mycase_id).first()

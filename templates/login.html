@@ -1,9 +1,9 @@
 {% extends 'template.html' %}
 {% block content%}
 <p>Not sign up yet? <a href="signup">Signup here!</a></p>
-<p>Log in here:</p>
+<h2>Log in here:</h2>
 <form method="POST" action="{{url_for('login')}}">
-	{{form.hidden_tag() }}
+	{{form.csrf_token}}
 	{{form.username.label}}: {{form.username}}<br><br>
 	{{form.password.label}}: {{form.password}}<br><br>
 	<input type="submit" value="login" name="login">

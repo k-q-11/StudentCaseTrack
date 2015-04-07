@@ -12,7 +12,7 @@ $ git remote add origin https://github.com/k-q-11/<this project name>.git //conn
 $ git push origin <name of my branch> //send the local changes in head to remote repository/push to remote server
 
 new changes:
-$git add.
+$git add .
 $git commit -am "my changes"
 $git push origin master
 
