@@ -1,4 +1,4 @@
-from views import mydb
+from project import mydb
 from models import User, Case
 # create the database and the table
 mydb.create_all()

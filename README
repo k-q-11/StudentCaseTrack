@@ -12,7 +12,14 @@ $ git remote add origin https://github.com/k-q-11/<this project name>.git //conn
 $ git push origin <name of my branch> //send the local changes in head to remote repository/push to remote server
 
 new changes:
-$git add .
+$git add.
 $git commit -am "my changes"
 $git push origin master
 
+create a branch:
+$git branch //check which branch it is now
+$git checkout -b <name of my branch> //create a new branch and switch to it. shorthand for $git branch <name of my branch> $git checkout <name of my branch> 
+$git branch //check which branch it is now
+$git rm '<whatever file extention, *.py for instance>'
+$ git commit -am "Removed some files" //commit the changes and add to HEAD (locally)
+$git push origin <name of my branch>

@@ -1,4 +1,4 @@
-from views import myapp
+from project import myapp
 myapp.run(
 	host = "127.0.0.2",
 	port = int("5001"),

@@ -2,7 +2,7 @@ import os
 import unittest
 import pdb
 
-from views import myapp, mydb
+from project import myapp, mydb
 from config import basedir
 from models import User
 
@@ -54,10 +54,9 @@ class AllTests(unittest.TestCase):
 		response = self.myapp.get('/')
 		self.assertEquals(response.status_code, 200)
 		self.assertIn('You need to login first.', response.data)
-		
 #logout() logged in user can log out
 	def test_logged_in_user_can_logout(self):
-		
+
 
 #login() presents the login form
     def test_form_is_present_on_login_page(self):
