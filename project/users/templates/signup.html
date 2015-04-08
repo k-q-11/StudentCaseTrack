@@ -1,0 +1,12 @@
+{% extends 'template.html' %}
+{% block content%}
+<p>Signup here:</p>
+<form method='POST' action='{{url_for('.signup')}}'>
+	{{form.csrf_token}}
+	{{ form.username.label }}: {{ form.username}}<br><br>
+	{{ form.email.label }}: {{ form.email}}<br><br>
+	{{ form.password.label }}: {{ form.password}}<br><br>
+	{{ form.repeatPassword.label }}: {{ form.repeatPassword}}<br><br>
+	<input type="submit" value="sign up" name="signup">
+</form>			
+{% endblock%}

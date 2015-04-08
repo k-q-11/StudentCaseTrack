@@ -1,0 +1,36 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Overview</h1>
+	<a href="{{url_for('users.logout')}}">Log out!</a>
+	<form method="GET" action="{{url_for('.new_case')}}">
+		<input type="submit" value="Create a new case">
+	</form>
+	<div class="overview">
+		<h3>Case overview</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Case ID</th>
+						<th>Category</th>
+						<th>Responsible person</th>
+						<th>Status</th>
+						<th>Opened date</th>
+						<th>Last modified date</th>
+					</tr>
+				</thead>
+				{% for case in open_cases%}
+					<tr>
+						<th>{{case.cid}}</th>
+						<th>{{case.category_str()}}</th>
+						<th>{{case.resp_person}}</th>
+						<th>{{case.status_str()}}</th>
+						<th>{{case.opened}}</th>
+						<th>{{case.last_modified}}</th>		
+						<th><a href="{{url_for('.edit_case', mycase_id = case.cid)}}">Edit</a></th>		
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>
+{% endblock %}
