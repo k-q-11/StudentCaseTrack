@@ -1,0 +1,24 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Overview</h1>
+	<a href="{{url_for('users.logout')}}">Log out!</a>
+	<form method="GET" action="{{url_for('applications.new_project')}}">
+		<input type="submit" value="Project">
+	</form>
+	<br>
+	<form method="GET" >
+		<input type="submit" value="Leave of absence">
+	</form>
+	<br>
+	<form method='GET'>
+		<input type="submit" value="Extra exam">
+	</form>
+	<br>
+	<form method='GET'>
+		<input type="submit" value="External education">
+	</form>
+	<br>
+	<form method='GET'>
+		<input type="submit" value="Course exemption">
+	</form>	
+{% endblock %}

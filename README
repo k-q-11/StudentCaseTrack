@@ -23,3 +23,6 @@ $git branch //check which branch it is now
 $git rm '<whatever file extention, *.py for instance>'
 $ git commit -am "Removed some files" //commit the changes and add to HEAD (locally)
 $git push origin <name of my branch>
+
+Install psycopg2 Python 2.7 x64
+http://www.stickpeople.com/projects/python/win-psycopg/

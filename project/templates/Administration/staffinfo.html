@@ -1,0 +1,20 @@
+{% extends 'template.html' %}
+{% block content%}
+
+<p>Add new staff here:</p>
+<form method="POST" action="{{url_for('.new_staff')}}">
+	{{form.csrf_token}}
+	{{form.staff_id.label}}: {{form.staff_id}}<br><br>
+	{{form.first_name.label}}: {{form.first_name}}<br><br>
+	{{form.last_name.label}}: {{form.last_name}}<br><br>
+	{{form.password.label}}: {{form.password}}<br><br>
+	{{form.repeatPassword.label}}: {{form.repeatPassword}}<br><br>		
+	{{form.email.label}}: {{form.email}}<br><br>
+	{{form.department.label}}: {{form.department}}<br><br>
+	{{form.office.label}}: {{form.office}}<br><br>
+	{{form.phone.label}}: {{form.phone}}<br><br>
+	{{form.field.label}}: {{form.field}}<br><br>
+	{{form.title.label}}: {{form.title}}<br><br>
+	<input type="submit" value="create" name="create">
+</form>			
+{% endblock%}

@@ -1,0 +1,50 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Student</h1>
+	<a href="{{url_for('users.logout')}}">Log out!</a>
+	<form method='GET' action="{{url_for('.new_student')}}">
+		<input type="submit" value="Create a new student">
+	</form>
+
+	<div class="overview">
+		<h3>Students</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Study Number</th>
+						<th>First name</th>
+						<th>Last name</th>
+						<th>Birthdate</th>
+						<th>Email</th>
+						<th>Program</th>
+						<th>Degree type</th>
+						<th>Registration date</th>
+						<th>Status</th>
+						<th>Earned ECTs</th>
+						<th>Registered ECTs</th>
+						<th>Total ECTs</th>
+						<th>Graduation date</th>
+					</tr>
+				</thead>
+				{% for student in students%}
+					<tr>
+						<th>{{student.study_no}}</th>
+						<th>{{student.std_first_name}}</th>
+						<th>{{student.std_last_name}}</th>
+						<th>{{student.std_birthdate}}</th>
+						<th>{{student.std_email}}</th>
+						<th>{{student.study_programs[0].program}}</th>
+						<th>{{student.study_programs[0].degree_type}}</th>
+						<th>{{student.study_programs[0].reg_date}}</th>
+						<th>{{student.study_programs[0].status}}</th>
+						<th>{{student.study_programs[0].earned_ECTs}}</th>
+						<th>{{student.study_programs[0].reg_ECTs}}</th>
+						<th>{{student.study_programs[0].tot_ECTs}}</th>
+						<th>{{student.study_programs[0].graduation_date}}</th>
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>
+{% endblock %}

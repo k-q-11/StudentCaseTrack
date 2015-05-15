@@ -1,0 +1,23 @@
+{% extends 'template.html' %}
+{% block content%}
+
+<p>Add new student here:</p>
+<form method="POST" action="{{url_for('.new_student')}}">
+	{{form.csrf_token}}
+	{{form.study_no.label}}: {{form.study_no}}<br><br>
+	{{form.first_name.label}}: {{form.first_name}}<br><br>
+	{{form.last_name.label}}: {{form.last_name}}<br><br>
+	{{form.date_of_birth.label}}: {{form.date_of_birth}}<br><br>{{form.password.label}}: {{form.password}}<br><br>
+	{{form.repeatPassword.label}}: {{form.repeatPassword}}<br><br>		
+	{{form.email.label}}: {{form.email}}<br><br>
+	{{form.program.label}}: {{form.program}}<br><br>
+	{{form.degree_type.label}}: {{form.degree_type}}<br><br>
+	{{form.reg_date.label}}: {{form.reg_date}}<br><br>
+	{{form.status.label}}: {{form.status}}<br><br>
+	{{form.earned_ECTs.label}}: {{form.earned_ECTs}}<br><br>
+	{{form.reg_ECTs.label}}: {{form.reg_ECTs}}<br><br>
+	{{form.total_ECTs.label}}: {{form.total_ECTs}}<br><br>
+	{{form.graduation_date.label}}: {{form.graduation_date}}<br><br>
+	<input type="submit" value="create" name="create">
+</form>			
+{% endblock%}

@@ -1,0 +1,18 @@
+{% extends 'template.html' %}
+{% block content%}
+
+<p>Add company infomation here:</p>
+<form method="POST" action="{{url_for('.new_company')}}" >
+	{{form.csrf_token}}
+	{{form.comp_name.label}}: {{form.comp_name}}<br><br>
+	{{form.comp_address.label}}: {{form.comp_address}}<br><br>
+	{{form.comp_country.label}}: {{form.comp_country}}<br><br>
+	{{form.comp_city.label}}: {{form.comp_city}}<br><br>
+	{{form.comp_postcode.label}}: {{form.comp_postcode}}<br><br>
+	{{form.comp_department.label}}: {{form.comp_department}}<br><br>
+	{{form.comp_web.label}}: {{form.comp_web}}<br><br>
+	{{form.comp_email.label}}: {{form.comp_email}}<br><br>
+	{{form.comp_phone.label}}: {{form.comp_phone}}<br><br>
+	<input type="submit" value="Next" name="Next">
+</form>			
+{% endblock%}

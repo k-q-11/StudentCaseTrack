@@ -33,10 +33,28 @@ class AllTests(unittest.TestCase):
     ########################
     def login(self, username, password):
     	return self.myapp.post('/login', 
-    		data=dict(username=username, password=password), follow_redirects=True)
+    		data=dict(
+                username=username, 
+                password=password), 
+            follow_redirects=True)
     
+    def create_user(self, username, email, password):
+        new_user = User(username=username, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+
     def logout(self):
     	return self.myapp.get('/logout', follow_redirects=True)
+
+    def create_case(self):
+        return self.myapp.post(
+            '/newcase',
+            data=dict(
+                category=3, 
+                resp_person='Henrik', 
+                status=1, 
+                user_id=1),
+            follow_redirects=True)
     ###############
     #### tests ####
     ###############    
@@ -86,6 +104,14 @@ class AllTests(unittest.TestCase):
 
 #new_case() shows add case form
 
+#new_case() can add a case
+    def test_can_add_new_case(self):
+        self.create_user('Henrik', 'hbm@dtu.dk', '123456')
+        self.login('Henrik', '123456')
+        self.app.get('/newcase', follow_redirects=True)
+        response = self.create_case()
+        self.assertIn()
+
 #new_case() the input formats to add new case are correct
 
 #new_case() the input formats to add new case are  incorrect
@@ -95,5 +121,12 @@ class AllTests(unittest.TestCase):
 #edit_case() the input formats to edit case form are incorrect
 
 #edit_case() the input formats to edit case form are correct, case updated, redirect to overview
+
+#create_student() shows the page of new student profile
+
+#create_student() can create a student profile
+
+#create_student() can validates the format
+    
 if __name__ == "__main__":
     unittest.main()

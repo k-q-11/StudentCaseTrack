@@ -1,0 +1,42 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Staff</h1>
+	<a href="{{url_for('users.logout')}}">Log out!</a>
+	<form method='GET' action="{{url_for('.new_staff')}}">
+		<input type="submit" value="Create a new staff">
+	</form>
+
+	<div class="overview">
+		<h3>Staffs</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Staff initial</th>
+						<th>First name</th>
+						<th>Last name</th>
+						<th>Email</th>
+						<th>Department</th>
+						<th>Office</th>
+						<th>Phone</th>
+						<th>Field</th>
+						<th>Title</th>
+					</tr>
+				</thead>
+				{% for staff in staffs%}
+					<tr>
+						<th>{{staff.staff_id}}</th>
+						<th>{{staff.staff_first_name}}</th>
+						<th>{{staff.staff_last_name}}</th>
+						<th>{{staff.staff_email}}</th>
+						<th>{{staff.staff_contacts[0].staff_department}}</th>
+						<th>{{staff.staff_contacts[0].staff_office}}</th>
+						<th>{{staff.staff_contacts[0].staff_phone}}</th>
+						<th>{{staff.staff_fields[0].staff_field}}</th>
+						<th>{{staff.staff_titles[0].staff_title}}</th>
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>
+{% endblock %}
