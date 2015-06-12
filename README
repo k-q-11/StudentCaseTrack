@@ -26,3 +26,13 @@ $git push origin <name of my branch>
 
 Install psycopg2 Python 2.7 x64
 http://www.stickpeople.com/projects/python/win-psycopg/
+
+Migration:
+Create/enable migarion
+$python manage.py db init
+
+Generate inital migration, check migrations/versions/...py script
+$python manage.py db migrate
+
+Apply migration
+$python manage.py db upgrade

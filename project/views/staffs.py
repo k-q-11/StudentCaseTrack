@@ -5,7 +5,7 @@ from flask import render_template, request, flash, redirect, session, url_for, B
 from sqlalchemy.exc import IntegrityError
 from project import mydb
 from project.forms import AddCaseForm, EditCaseForm, StudentInfoForm, StaffInfoForm
-from project.views.views import login_required
+from project.views.views import login_required, flash_errors
 from project.models import Case, Student, StudyProgram, Staff, StaffContact, StaffField, StaffTitle
 
 ################
@@ -63,5 +63,5 @@ def new_staff():#create_student(staff_id):
 			mydb.session.commit()
 			return redirect(url_for('staffs.staffs'))
 		else:
-			flash_errors(projectInfoForm)
+			flash_errors(staffInfoForm)
 			return redirect(url_for('staffs.new_staff'))	

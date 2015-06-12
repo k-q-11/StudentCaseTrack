@@ -2,11 +2,12 @@ from project import myapp, mydb
 from flask import Flask, render_template, request, flash, redirect, session, url_for
 from functools import wraps
 from config import ALLOWED_EXTENSIONS
-
+from flask.ext.login import login_required
 
 ##########################
 #### helper functions ####
 ##########################
+'''
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
@@ -16,6 +17,7 @@ def login_required(test):
             flash('You need to login first.')
             return redirect(url_for('users.login'))
     return wrap
+'''    
 
 #not used
 def flash_errors(form):
@@ -33,7 +35,6 @@ def allowed_file(filename):
 ################
 @myapp.route('/')
 @myapp.route('/index')
-
 #@myapp.route('/', defaults={'first_page': 'index'})
 #@myapp.route('/<first_page>')
 @login_required

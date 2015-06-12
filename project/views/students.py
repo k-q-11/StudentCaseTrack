@@ -62,5 +62,5 @@ def new_student():#create_student(staff_id):
 			mydb.session.commit()
 			return redirect(url_for('students.students'))
 		else:
-			flash_errors(projectInfoForm)
+			flash_errors(studentInfoForm)
 			return redirect(url_for('students.new_student'))

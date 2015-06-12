@@ -9,10 +9,10 @@
 	{{form.proj_title.label}}: {{form.proj_title}}<br><br>
 	{{form.proj_description.label}}: {{form.proj_description}}<br><br>
 	{{form.proj_salary.label}}: {{form.proj_salary}}<br><br>		
-	{{form.proj_contract.label}}:<input type="file" name="cfile" value="Upload"><br><br>
-	{{form.proj_insurance.label}}:<input type="file" name="ifile" value="Upload"><br><br>
+	{{form.proj_contract.label}}:{{form.proj_contract}}<br><br>
+	{{form.proj_insurance.label}}:{{form.proj_insurance}}<br><br>
 	{{form.proj_s_date.label}}: {{form.proj_s_date}}<br><br>
   {{form.proj_e_date.label}}: {{form.proj_e_date}}<br><br>
-	<input type="submit" value="Next" name="Next">
+  {{form.back_btn}} {{form.next_btn}}<br><br>
 </form>			
 {% endblock%}

@@ -5,7 +5,7 @@ from flask import render_template, request, flash, redirect, session, url_for, B
 from sqlalchemy.exc import IntegrityError
 from project import mydb
 from project.forms import AddCaseForm, EditCaseForm, StudentInfoForm, StaffInfoForm
-from project.views.views import login_required
+from project.views.views import login_required, flash_errors
 from project.models import Case, Student, StudyProgram, Staff, StaffContact, StaffField, StaffTitle
 
 ################
@@ -49,7 +49,7 @@ def new_case():
 			flash('New case created!')
 			return redirect(url_for('cases.overview'))
 		else:
-			flash('All fields requred!')
+			flash_error(addCaseForm)
 			return redirect(url_for('cases.new_case')) 
 	
 @cases_blueprint.route('/edit', methods=['GET', 'POST'])
@@ -71,7 +71,7 @@ def edit_case(mycase_id):
 			flash('Case updated!')
 			return redirect(url_for('cases.overview'))
 		else:
-			flash('Some fields are incorrect!')
+			flash_errors(editCaseForm)
 			return redirect(url_for( 'cases.edit_case', mycase_id = edit_case.cid) )
 	
 	

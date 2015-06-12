@@ -1,6 +1,7 @@
-from project import mydb
-from werkzeug.security import generate_password_hash, check_password_hash
+from project import mydb, bcrypt
+#from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
+
 
 CASE_CATEGORY = {
 	1: 'Study visit',
@@ -103,14 +104,22 @@ class User(mydb.Model):
 		password):
 		self.username = username
 		self.email = email
+		self.password = bcrypt.generate_password_hash(password) 
 		#self.set_password(password)
-		self.password = password
+		#self.password = password
 
-	def set_password(self, password):
-		self.pwdhash = generate_password_hash(password)
+	def is_authenticated(self):
+		return True
+	
+	def is_active(self):
+		return True
 
-	def check_password(self, password):
-		return check_password_hash(self.pwdhash, password)
+	def is_anonymous(self):
+		return False
+
+	def get_id(self):
+		return unicode(self.uid)			
+
 
 	#def __repr__(self):
 	#	return '<User %r>' % self.username
@@ -303,9 +312,6 @@ class ProjectApp(mydb.Model):
 	created_datetime = mydb.Column(mydb.Date())
 	deadline_datetime = mydb.Column(mydb.Date())
 	close_datetime = mydb.Column(mydb.Date())
-	comp_name = mydb.Column(mydb.String(50))
-	comp_address = mydb.Column(mydb.String(95))
-	comp_department = mydb.Column(mydb.String(50))
 	c_sup_email = mydb.Column(mydb.String(62))
 	proj_module = mydb.Column(mydb.String(20))
 	proj_ECTs = mydb.Column(mydb.String(4))
@@ -319,7 +325,8 @@ class ProjectApp(mydb.Model):
 	proj_h_date = mydb.Column(mydb.Date())
 	u_sup_name = mydb.Column(mydb.String(70))
 	app_u_supervisors = mydb.relationship('AppUSupervisor', backref='projectApp')
-	
+	companies = mydb.relationship('Company', backref='projectApp')
+			
 	def __init__(
 		self,
 		app_description,
@@ -348,9 +355,6 @@ class ProjectApp(mydb.Model):
 		self.created_datetime = datetime.datetime.now() #created_datetime
 		self.deadline_datetime = None
 		self.close_datetime = None
-		self.comp_name = None
-		self.comp_address = None
-		self.comp_department = None
 		self.c_sup_email = None
 		self.proj_module = proj_module
 		self.proj_ECTs = proj_ECTs
@@ -363,8 +367,30 @@ class ProjectApp(mydb.Model):
 		self.proj_e_date = proj_e_date
 		self.proj_h_date = None
 		self.u_sup_name = None
+'''
+	def ceate(self):
+		return None
 
+	def save(self):
 
+	def apply(self):
+		
+	def delete(self):
+
+	def accept(self):
+
+	def reject(self):
+
+	def transferTo(self):
+
+	def process(self):
+
+	def close(self):
+
+	def findByID(self):
+
+	def reopen(self):	
+'''
 
 class Company(mydb.Model):
 	__tablename__ = 'COMPANY'
@@ -377,7 +403,8 @@ class Company(mydb.Model):
 	comp_web = mydb.Column(mydb.Text())
 	comp_email = mydb.Column(mydb.String(62))
 	comp_phone = mydb.Column(mydb.String(15))
-	csupervisors = mydb.relationship('CSupervisor', backref='company')
+	app_id = mydb.Column(mydb.Integer, mydb.ForeignKey('PROJECT_APP.app_id') )
+	#csupervisors = mydb.relationship('CSupervisor', backref='company')
 
 	def __init__(
 		self,
@@ -389,7 +416,8 @@ class Company(mydb.Model):
 		comp_postcode,
 		comp_web,
 		comp_email,
-		comp_phone
+		comp_phone,
+		app_id
 		):
 		self.comp_name = comp_name
 		self.comp_address = comp_address
@@ -400,6 +428,7 @@ class Company(mydb.Model):
 		self.comp_web = comp_web
 		self.comp_email = comp_email
 		self.comp_phone = comp_phone
+		self.app_id = app_id
 
 class CSupervisor(mydb.Model):
 	__tablename__ = 'C_SUPERVISOR'
@@ -414,7 +443,7 @@ class CSupervisor(mydb.Model):
 	__table_args__ = (
 		mydb.ForeignKeyConstraint(
 			['comp_name','comp_address', 'comp_department'],
-			['COMPANY.comp_name', 'COMPANY.comp_department', 'COMPANY.comp_address']
+			['COMPANY.comp_name', 'COMPANY.comp_address', 'COMPANY.comp_department']
 			),
 		)
 
@@ -425,7 +454,7 @@ class CSupervisor(mydb.Model):
 		c_sup_phone,
 		comp_name,
 		comp_address,
-		comp_department,
+		comp_department
 		):
 		self.c_sup_email = c_sup_email
 		self.c_sup_name = c_sup_name

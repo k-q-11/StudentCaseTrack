@@ -1,0 +1,11 @@
+{% extends 'template.html' %}
+{% block content%}
+
+<p>Project application summary:</p>
+<form method="POST" action="{{url_for('.application_review')}}" enctype="multipart/form-data">
+	{{form.csrf_token}}
+	{{form.std_comment.label}}: {{form.std_comment}}<br><br>
+	{{form.std_document.label}}: {{form.std_document}}<br><br>
+	{{form.back_btn}} {{form.cancel_btn}} {{form.next_btn}}<br><br>
+</form>			
+{% endblock%}

@@ -1,39 +1,41 @@
 import os
 import unittest
 import pdb
-
+from flask.ext.testing import TestCase
 from project import myapp, mydb
 from config import basedir
-from models import User
+from project.models import User
+from flask import url_for
 
-TEST_DB = 'test.db'
+#TEST_DB = 'test.db'
 
 
-class AllTests(unittest.TestCase):
+class BaseTestCase(TestCase):
+    """A base test case."""
 
-    ############################
-    #### setup and teardown ####
-    ############################
-
-    # executed prior to each test
-    def setUp(self):
+    def create_app(self):
         myapp.config['TESTING'] = True
+        myapp.config['DEBUG'] = True
         myapp.config['WTF_CSRF_ENABLED'] = False
-        myapp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-            os.path.join(basedir, TEST_DB)
-        self.myapp = myapp.test_client()
-        mydb.create_all()
+        myapp.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:s122678@localhost:5433/scts_test"
+        return myapp
 
-    # executed after to each test
+    def setUp(self):
+        mydb.drop_all()
+        mydb.create_all()
+        mydb.session.add(User(username="adminadmin", email="admin@dtu.dk", password="123456"))
+        mydb.session.commit()
+
     def tearDown(self):
+        mydb.session.remove()
         mydb.drop_all()
 
     ########################
     #### helper methods ####
     ########################
     def login(self, username, password):
-    	return self.myapp.post('/login', 
-    		data=dict(
+        return self.client.post(url_for('users.login'), 
+            data=dict(
                 username=username, 
                 password=password), 
             follow_redirects=True)
@@ -43,53 +45,31 @@ class AllTests(unittest.TestCase):
         db.session.add(new_user)
         db.session.commit()
 
+    def signup(self, username, email, password):
+        return self.client.post(url_for('users.signup'),
+            data=dict(
+                username=username,
+                email=email,
+                password=password,
+                repeatPassword=password),
+            follow_redirects=True)
+
     def logout(self):
-    	return self.myapp.get('/logout', follow_redirects=True)
+        return self.client.get(url_for('users.logout'), follow_redirects=True)
 
     def create_case(self):
-        return self.myapp.post(
+        return self.client.post(
             '/newcase',
             data=dict(
                 category=3, 
                 resp_person='Henrik', 
                 status=1, 
                 user_id=1),
-            follow_redirects=True)
+            follow_redirects=True)        
     ###############
     #### tests ####
-    ###############    
-
-
-#index()  logined in user is shown overview
-	def test_logged_in_user_is_shown_overview(self):
-		self.login('KevinQ', '123456')
-		response = self.myapp.get('/')
-		self.assertEquals(response.status_code, 200)
-		self.assertIn('Case overview', response.data)
-
-#index() user not loggedin is direct to login
-	def test_loggedin_required(self):
-		response = self.myapp.get('/')
-		self.assertEquals(response.status_code, 200)
-		self.assertIn('You need to login first.', response.data)
-#logout() logged in user can log out
-	def test_logged_in_user_can_logout(self):
-
-
-#login() presents the login form
-    def test_form_is_present_on_login_page(self):
-        response = self.myapp.get('/login')
-        self.assertEquals(response.status_code, 200)
-        self.assertIn('Log in here:', response.data) 
-
-#login() the login inputs are correct format
-
-#login() the login inputs are wrong format
-	
-#login() verify the user is registered
-
-#login() if all credentials are correct, show overview
-
+    ############### 
+class MyTestCase(BaseTestCase):
 #signup() presents the signup form
 
 #signup() the input formats correct 
@@ -98,20 +78,62 @@ class AllTests(unittest.TestCase):
 
 #signup() when user type a user name and/or password already exsits
 
+#index() user not loggedin is direct to login
+
+    def test_loggedin_required(self):
+        response = self.client.get(url_for('index'), follow_redirects=True )
+        self.assertEquals(response.status_code, 200)
+        self.assertIn('Log in', response.data)
+
+#index()  logined in user is shown overview 
+    def test_logged_in_user_is_shown_overview(self):
+        response = self.login('adminadmin', '123456')
+        self.assertEquals(response.status_code, 200)
+        self.assertIn('Overview', response.data)
+
+#logout() logged in user can log out
+    def test_logged_in_user_can_logout(self):        
+        response = self.logout()
+        self.assertEquals(response.status_code, 200)
+        self.assertIn('Log in', response.data)
+
 #signup() creates a user in the database 
+    def test_signup_directs_overview(self):
+        response = self.signup('Bo Holst', 'bch@dtu.dk', '123456')
+        self.assertEquals(response.status_code, 200)
+        self.assertIn('Overview', response.data)
+
+
+#login() presents the login form
+'''
+    def test_form_is_present_on_login_page(self):
+        response = self.client.get('/login')
+        self.assertEquals(response.status_code, 200)
+        self.assertIn('Log in here:', response.data) 
+'''
+#login() the login inputs are correct format
+
+#login() the login inputs are wrong format
+	
+#login() verify the user is registered
+
+#login() if all credentials are correct, show overview
+
+
 
 #overview() shows all the opencases
 
 #new_case() shows add case form
 
 #new_case() can add a case
+'''
     def test_can_add_new_case(self):
         self.create_user('Henrik', 'hbm@dtu.dk', '123456')
         self.login('Henrik', '123456')
-        self.app.get('/newcase', follow_redirects=True)
+        self.client.get('/newcase', follow_redirects=True)
         response = self.create_case()
         self.assertIn()
-
+'''
 #new_case() the input formats to add new case are correct
 
 #new_case() the input formats to add new case are  incorrect
@@ -128,5 +150,6 @@ class AllTests(unittest.TestCase):
 
 #create_student() can validates the format
     
+
 if __name__ == "__main__":
     unittest.main()

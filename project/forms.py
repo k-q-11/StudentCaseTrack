@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, DateField, SelectField, IntegerField, DecimalField, TextAreaField
+from wtforms import StringField, PasswordField, DateField, SelectField, IntegerField, DecimalField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, NumberRange
 from wtforms.fields.html5 import EmailField
 from datetime import date, datetime
@@ -167,10 +167,12 @@ class ProjectInfoForm(Form):
 	proj_salary = StringField('Project salary',
 					validators=[DataRequired("Please enter salary"),
 						Length(min=1, max=50, message = 'Name input minumum 1, maximum 50 characters')])
-	proj_contract = FileField('Project contract')#, validators=[FileRequired(), FileAllowed(['pdf'], 'Pdf only!')])
-	proj_insurance = FileField('Project insurance') #, validators=[FileRequired(), FileAllowed(['pdf'], 'Pdf only!')])
+	proj_contract = FileField('Project contract (only pdf allowed)')#, validators=[FileRequired(), FileAllowed(['pdf'], 'Pdf only!')])
+	proj_insurance = FileField('Project insurance (only pdf allowed)') #, validators=[FileRequired(), FileAllowed(['pdf'], 'Pdf only!')])
 	proj_s_date = DateField('Start date (dd/mm/yy)', format='%d/%m/%Y')
 	proj_e_date = DateField('End date (dd/mm/yy)', format='%d/%m/%Y')
+	next_btn = SubmitField('Next')
+	back_btn = SubmitField('Back')
 
 class CompanyInfoForm(Form):
 	comp_name = StringField('Company name',
@@ -199,14 +201,32 @@ class CompanyInfoForm(Form):
 	comp_phone = StringField('Phone',
 					validators=[DataRequired(),
 						Length(min=6, max=15, message = 'Name input minumum 6, maximum 15 characters')])
+	next_btn = SubmitField('Next')
+	back_btn = SubmitField('Back')
 
 class CSupervisorInfoForm(Form):
-		c_sup_email = EmailField('Email',
+	c_sup_email = EmailField('Email',
 					validators=[DataRequired(),
 						Length(min=4, max=62, message = 'Name input minumum 4, maximum 62 characters')])
-		c_sup_name = StringField('Comapny supervisor name',
+	c_sup_name = StringField('Comapny supervisor name',
 					validators=[DataRequired(),
 						Length(min=5, max=50, message = 'Name input minumum 5, maximum 50 characters')])
-		c_sup_phone= StringField('Phone',
+	c_sup_phone= StringField('Phone',
 					validators=[DataRequired(),
 						Length(min=6, max=15, message = 'Name input minumum 6, maximum 15 characters')])
+	c_sup_title= StringField('Title',
+					validators=[DataRequired(),
+						Length(min=3, max=50, message = 'Name input minumum 2, maximum 50 characters')])	
+	c_sup_field= StringField('Field',
+					validators=[DataRequired(),
+						Length(min=2, max=100, message = 'Name input minumum 2, maximum 100 characters')])
+	next_btn = SubmitField('Next')
+	back_btn = SubmitField('Back')
+
+class ReviewInfoForm(Form):
+	std_comment = TextAreaField('Comment',
+					validators=[DataRequired()])
+	std_document = FileField('Additonal document (only pdf allowed)')
+	next_btn = SubmitField('Next')
+	back_btn = SubmitField('Back')
+	cancel_btn = SubmitField('Save and cancel')
