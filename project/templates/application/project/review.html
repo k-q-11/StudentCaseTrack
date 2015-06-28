@@ -6,6 +6,6 @@
 	{{form.csrf_token}}
 	{{form.std_comment.label}}: {{form.std_comment}}<br><br>
 	{{form.std_document.label}}: {{form.std_document}}<br><br>
-	{{form.back_btn}} {{form.cancel_btn}} {{form.next_btn}}<br><br>
+	<input type=button value="Back" onClick="javascript:history.go(-1);"> {{form.cancel_btn}} {{form.next_btn}}<br><br>
 </form>			
 {% endblock%}

@@ -4,7 +4,7 @@ import pdb
 from flask.ext.testing import TestCase
 from project import myapp, mydb
 from config import basedir
-from project.models import User
+from project.models import Staff
 from flask import url_for
 
 #TEST_DB = 'test.db'
@@ -23,7 +23,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         mydb.drop_all()
         mydb.create_all()
-        mydb.session.add(User(username="adminadmin", email="admin@dtu.dk", password="123456"))
+        mydb.session.add(Staff(staff_id = 'admin', first_name="Xiang", last_name="Gu", email="admin@dtu.dk", password="123456"))
         mydb.session.commit()
 
     def tearDown(self):
@@ -33,30 +33,32 @@ class BaseTestCase(TestCase):
     ########################
     #### helper methods ####
     ########################
-    def login(self, username, password):
-        return self.client.post(url_for('users.login'), 
+    
+    def login(self, staff_id, password):
+        return self.client.post(url_for('staffs.login'), 
             data=dict(
-                username=username, 
+                staff_id=staff_id, 
                 password=password), 
             follow_redirects=True)
     
-    def create_user(self, username, email, password):
-        new_user = User(username=username, email=email, password=password)
+    def create_user(self, staff_id, first_name, last_name, email, password):
+        new_user = Staff(staff_id =staff_id, first_name = first_name, last_name = last_name, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
 
-    def signup(self, username, email, password):
-        return self.client.post(url_for('users.signup'),
+    def change_password(self, staff_id, old_password, new_password, repeat_new_password):
+        return self.client.post(url_for('staffs.changepass'),
             data=dict(
-                username=username,
-                email=email,
-                password=password,
-                repeatPassword=password),
-            follow_redirects=True)
+                staff_id=staff_id,
+                password=old_password,
+                newPassword=new_password,
+                repeatNewPassword=repeat_new_password
+                ),
+            follow_redirects=True)        
 
     def logout(self):
-        return self.client.get(url_for('users.logout'), follow_redirects=True)
-
+        return self.client.get(url_for('staffs.logout'), follow_redirects=True)
+'''
     def create_case(self):
         return self.client.post(
             '/newcase',
@@ -65,7 +67,8 @@ class BaseTestCase(TestCase):
                 resp_person='Henrik', 
                 status=1, 
                 user_id=1),
-            follow_redirects=True)        
+            follow_redirects=True) 
+'''                   
     ###############
     #### tests ####
     ############### 
@@ -87,7 +90,7 @@ class MyTestCase(BaseTestCase):
 
 #index()  logined in user is shown overview 
     def test_logged_in_user_is_shown_overview(self):
-        response = self.login('adminadmin', '123456')
+        response = self.login(staff_id='admin', password='123456')
         self.assertEquals(response.status_code, 200)
         self.assertIn('Overview', response.data)
 
@@ -98,8 +101,8 @@ class MyTestCase(BaseTestCase):
         self.assertIn('Log in', response.data)
 
 #signup() creates a user in the database 
-    def test_signup_directs_overview(self):
-        response = self.signup('Bo Holst', 'bch@dtu.dk', '123456')
+    def test_changepass_directs_overview(self):
+        response = self.change_password('admin', '123456', '654321', '654321')
         self.assertEquals(response.status_code, 200)
         self.assertIn('Overview', response.data)
 

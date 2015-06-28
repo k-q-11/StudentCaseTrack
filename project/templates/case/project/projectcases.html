@@ -1,0 +1,93 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Project cases overview</h1>
+	<a href="{{url_for('staffs.logout')}}">Log out!</a>
+
+	<div class="NewCases">
+		<h3>New cases pool:</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Application ID</th>
+						<th>Description</th>
+						<th>Priority</th>
+						<th>Submitted date</th>
+						<th>Deadline</th>
+					</tr>
+				</thead>
+				{% for case in orphan_cases%}
+					<tr>
+					  <th>{{case.app_id}}</th>	
+						<th>{{case.app_description}}</th>
+						<th>{{case.case_priority}}</th>
+						<th>{{case.submitted_datetime}}</th>
+						<th>{{case.deadline_datetime}}</th>							
+						<th><a href="{{url_for('.project_cases', app_id = case.app_id, command = 'Accept')}}">Accept</a></th>	
+						<th><a href="{{url_for('.project_cases', app_id = case.app_id, command = 'View')}}">View</a></th>
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>
+	<br><br>
+
+	<div class="MyOpenCase">
+		<h3>My open cases:</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Application ID</th>
+						<th>Description</th>
+						<th>Priority</th>
+						<th>Submitted date</th>
+						<th>Deadline</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				{% for case in my_open_cases%}
+					<tr>
+					  <th>{{case.app_id}}</th>	
+						<th>{{case.app_description}}</th>
+						<th>{{case.case_priority}}</th>
+						<th>{{case.submitted_datetime}}</th>
+						<th>{{case.deadline_datetime}}</th>
+						<th>{{case.case_status}}</th>							
+						<th><a href="{{url_for('.process_project_case', app_id = case.app_id)}}">Process</a></th>		
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>	
+	<br><br>
+
+	<div class="MyClosedCase">
+		<h3>My closed cases</h3>
+		<div class="datagrid">
+			<table>
+				<thead>
+					<tr>
+						<th>Application ID</th>
+						<th>Applicant study no</th>
+						<th>Description</th>
+						<th>Decision</th>
+						<th>Closed datetime</th>
+					</tr>
+				</thead>
+				{% for case in my_closed_cases%}
+					<tr>
+					  <th>{{case.app_id}}</th>	
+					  <th>{{case.applicant}}</th>
+						<th>{{case.app_description}}</th>
+						<th>{{case.app_decision}}</th>						
+						<th>{{case.close_datetime}}</th>							
+						<th><a href="{{url_for('.project_cases', app_id = case.app_id, command = 'View')}}">View</a></th>
+						<th><a href="{{url_for('.project_cases', app_id = case.app_id, command = 'Reopen')}}">Reopen</a></th>		
+					</tr>
+				{% endfor%}
+			</table>
+		</div>
+	</div>	
+	
+{% endblock %}

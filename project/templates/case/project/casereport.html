@@ -1,0 +1,36 @@
+{% extends "template.html" %}
+{%  block content%}	
+	<a href="{{url_for('staffs.logout')}}">Log out!</a>
+	<div class="CaseReport">
+		<h3>Case report </h3>
+		<ul style="list-style-type:none">
+			<li>Applicaiton ID: {{case.app_id}}</li>
+			<li>Applicant: {{case.applicant}}</li>
+			<li>Description: {{case.app_description}}</li>
+			<li>Project title: {{case.proj_title}}</li>
+			<li>Project module: {{module.module_name}}</li>
+			<li>Project ECTS: {{module.module_ECTS}}</li>
+			<li>Project description: {{case.proj_description}}</li>
+			<li>Project start date: {{case.proj_s_date}}</li>
+			<li>Project end date: {{case.proj_e_date}}</li>
+			<li>Company name: {{company.comp_name}}</li>
+			<li>Company address: {{company.comp_address}}</li>
+			<li>Company department: {{company.comp_department}}</li>
+			<li>Country: {{company.comp_country}}</li>
+			<li>Postcode: {{company.comp_postcode}}</li>
+			<li>Website: {{company.comp_web}}</li>
+			<li>Company email: {{company.comp_email}}</li>
+			<li>Company phone number: {{company.comp_phone}}</li>
+			<li>Company supervisor name: {{csupervisor.c_sup_name}}</li>
+			<li>Company supervisor phone: {{csupervisor.c_sup_phone}}</li>
+			<li>Company supervisor email: {{csupervisor.c_sup_email}}</li>
+			<li>Company supervisor titles: {{titles|join(', ')}}</li>
+			<li>Company supervisor fields: {{fields|join(', ')}}</li>
+			<li>Case owner: {{case.case_owner}}</li>
+			<li>Decision: {{case.app_decision}}</li>
+			<li>Comment: {{case.staff_comment}}</li>
+			<li><a href="{{url_for('.download_document', document='staff_document', app_id = case.app_id)}}">Download document</a></li>
+		</ul>
+		<input type=button value="Back" onClick="javascript:history.go(-1);"> 
+	</div>
+{% endblock %}

@@ -1,5 +1,7 @@
 Run python db_create.py first to create DB table
 
+$pip freeze > requirements.txt
+
 GIT
 Create a project on github
 Open GIT bash
@@ -12,7 +14,7 @@ $ git remote add origin https://github.com/k-q-11/<this project name>.git //conn
 $ git push origin <name of my branch> //send the local changes in head to remote repository/push to remote server
 
 new changes:
-$git add.
+$git add .
 $git commit -am "my changes"
 $git push origin master
 
@@ -28,11 +30,11 @@ Install psycopg2 Python 2.7 x64
 http://www.stickpeople.com/projects/python/win-psycopg/
 
 Migration:
-Create/enable migarion
+Create migration folder/repository (only do it the first time)
 $python manage.py db init
 
-Generate inital migration, check migrations/versions/...py script
-$python manage.py db migrate
+Generate a migration, check migrations/versions/*.py script
+$python manage.py db migrate -m "My migration messages"
 
 Apply migration
 $python manage.py db upgrade

@@ -1,0 +1,20 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Overview</h1>
+	<a href="{{url_for('staffs.logout')}}">Log out!</a>
+	<div class="overview">
+		<h3>Project case </h3>
+		<ul style="list-style-type:none">
+			<li>Applicaiton ID: {{case.app_id}}</li>
+			<li>Case owner: {{case.case_owner}}</li>
+			<li>Recommend_supervisors: {{names|join(', ')}}</li>
+			<li>Decision: {{case.app_decision}}</li>
+			<li>Comment: {{case.staff_comment}}</li>
+			<li><a href="{{url_for('.download_document', document='staff_document', app_id = case.app_id)}}">Download document</a></li>
+		</ul>
+		<form method='POST' action="{{url_for('.review_project_case', app_id=case.app_id)}}">
+			{{form.csrf_token}}
+			<input type=button value="Back" onClick="javascript:history.go(-1);"> {{form.next_btn}}<br><br>
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Portal</h1>
+	<form method='GET'>
+		<input type="submit" value="Student">
+	</form>
+	<br>
+	<form method='GET' action="{{url_for('staffs.home')}}">
+		<input type="submit" value="Staff">
+	</form>
+{% endblock %}

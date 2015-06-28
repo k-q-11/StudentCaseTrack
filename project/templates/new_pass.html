@@ -1,0 +1,12 @@
+{% extends 'template.html' %}
+{% block content%}
+<p>Change password here:</p>
+<form method='POST' action='{{url_for('.changepass')}}'>
+	{{form.csrf_token}}
+	{{ form.staff_id.label }}: {{ form.staff_id}}<br><br>
+	{{ form.password.label }}: {{ form.password}}<br><br>
+	{{ form.newPassword.label }}: {{ form.newPassword}}<br><br>
+	{{ form.repeatNewPassword.label }}: {{ form.repeatNewPassword}}<br><br>	
+	<input type="submit" value="Change password" name="changepass">
+</form>			
+{% endblock%}

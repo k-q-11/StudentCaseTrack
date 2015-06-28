@@ -19,7 +19,11 @@
 			{% endfor %}
 		</div>
 		<div class="container">
-			{% block content%}{% endblock %}	
+			<form method='GET' action="{{url_for('staffs.home')}}">
+				<input type="submit" value="Home">
+			</form>		
+			{% block content%}
+			{% endblock %}	
 		</div>
 		<div class="footer">
 			{% block footer %}

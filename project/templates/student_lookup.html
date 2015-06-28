@@ -1,0 +1,9 @@
+{% extends 'template.html' %}
+{% block content%}
+<p>Check if the student exits</p>
+<form method='POST' action='{{url_for('.lookup_student')}}'>
+	{{form.csrf_token}}
+	{{form.study_no.label}}: {{form.study_no}}<br><br>
+	{{form.search_btn}}<br><br>
+</form>			
+{% endblock%}

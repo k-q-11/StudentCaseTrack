@@ -1,6 +1,5 @@
 {% extends 'template.html' %}
 {% block content%}
-
 <p>Add project infomation here:</p>
 <form method="POST" action="{{url_for('.new_project')}}" enctype="multipart/form-data">
 	{{form.csrf_token}}
@@ -13,6 +12,6 @@
 	{{form.proj_insurance.label}}:{{form.proj_insurance}}<br><br>
 	{{form.proj_s_date.label}}: {{form.proj_s_date}}<br><br>
   {{form.proj_e_date.label}}: {{form.proj_e_date}}<br><br>
-  {{form.back_btn}} {{form.next_btn}}<br><br>
+  <input type=button value="Back" onClick="javascript:history.go(-1);"> {{form.next_btn}}<br><br>
 </form>			
 {% endblock%}

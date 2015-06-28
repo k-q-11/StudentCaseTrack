@@ -7,17 +7,6 @@ from flask.ext.login import login_required
 ##########################
 #### helper functions ####
 ##########################
-'''
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('users.login'))
-    return wrap
-'''    
 
 #not used
 def flash_errors(form):
@@ -37,7 +26,13 @@ def allowed_file(filename):
 @myapp.route('/index')
 #@myapp.route('/', defaults={'first_page': 'index'})
 #@myapp.route('/<first_page>')
+def index():
+    flash('Welcome to STADS-SCTS!' )
+    return render_template('portal.html')
+'''   
 @login_required
 def index():
-    flash('Welcome %s!' %(session['username']))
+    #flash('Welcome %s!' %(session['staff_id']))
+    flash('Welcome!' )
     return render_template('home.html')
+'''

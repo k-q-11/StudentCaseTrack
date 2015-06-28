@@ -1,8 +1,8 @@
 {% extends "template.html" %}
 {%  block content%}
-	<h1>Applicaiton Overview</h1>
+	<h1>Cases overview</h1>
 	<a href="{{url_for('staffs.logout')}}">Log out!</a>
-	<form method="GET" action="{{url_for('applications.lookup_student', next_url='applications.new_project')}}">
+	<form method="GET" action="{{url_for('cases.project_cases')}}">
 		<input type="submit" value="Project">
 	</form>
 	<br>

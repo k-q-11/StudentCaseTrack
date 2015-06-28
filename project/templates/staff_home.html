@@ -1,0 +1,20 @@
+{% extends "template.html" %}
+{%  block content%}
+	<h1>Staff home</h1>
+	<a href="{{url_for('staffs.logout')}}">Log out!</a>
+	<form method="GET" action="{{url_for('applications.applications')}}">
+		<input type="submit" value="Submit application">
+	</form>
+	<br>	
+	<form method="GET" action="{{url_for('cases.cases')}}">
+		<input type="submit" value="Handle cases">
+	</form>
+	<br>
+	<form method='GET' action="{{url_for('students.students')}}">
+		<input type="submit" value="Manage student">
+	</form>
+	<br>
+	<form method='GET' action="{{url_for('staffs.staffs')}}">
+		<input type="submit" value="Manage staff">
+	</form>
+{% endblock %}
